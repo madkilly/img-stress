@@ -10,7 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import com.zhu.StressTesting;
 
-public class StressGUI implements ActionListener{
+public class StressGUI {
+	private static String DEBUG="true";
 	
 	private  Button StartTest;
 	private  Button StopTest;
@@ -24,8 +25,53 @@ public class StressGUI implements ActionListener{
 		StopTest=new Button("stop");
 		CloseTest=new Button("close");
 		//监听器
-		StartTest.addActionListener(this);
-		CloseTest.addActionListener(this);
+		StartTest.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				final StressTesting ST=new StressTesting(consoleT);
+				
+				Thread thread=new Thread(new Runnable(){
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+				    	
+						ST.runssh();
+				    	
+				    	if(DEBUG=="true")
+				         System.out.println("start testing");
+					}});
+				thread.start();
+
+				
+			}
+			
+		});
+		
+		
+		
+		CloseTest.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+	            f.setVisible(false);         //设置窗口f不可见
+	            f.dispose();            //释放窗口及其子组件的屏幕资源
+	            System.exit(0);
+			}
+			
+		});
+		
+		StopTest.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("stop testing");
+			}
+			
+		});
 		
 		// 创建Frame对象
 		f = new Frame();
@@ -63,24 +109,7 @@ public class StressGUI implements ActionListener{
 	
 	
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO 自动生成的方法存根
-		if (e.getSource()==StartTest) {
-	    	StressTesting ST=new StressTesting();
-	    	ST.runssh(consoleT);
-	         //System.out.println("start testing");
-		}
-		else if(e.getSource()==StopTest){
-			System.out.println("stop testing");
-		}
-		else if (e.getSource()==CloseTest) {		
-            f.setVisible(false);         //设置窗口f不可见
-            f.dispose();            //释放窗口及其子组件的屏幕资源
-            System.exit(0);
-			//System.out.println("close testing");
-		}
-	}
+
 	
 }
 
