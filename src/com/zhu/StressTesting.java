@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
 
 import java.io.OutputStream;
 
+import javax.swing.JTextArea;
+
 import ch.ethz.ssh2.Connection;  
 import ch.ethz.ssh2.Session;  
 import ch.ethz.ssh2.StreamGobbler; 
@@ -16,18 +18,18 @@ import ch.ethz.ssh2.StreamGobbler;
 public class StressTesting {
 	InputStream in;
 	OutputStream out;
-	TextArea ConsoleArea;
-	public StressTesting(TextArea ConsoleArea){
+	JTextArea ConsoleArea;
+	public StressTesting(JTextArea ConsoleArea){
 		this.ConsoleArea=ConsoleArea;
 	}
 	  public  void runssh() {  
           
-/*	        String hostname = "172.20.8.116";  
+	        String hostname = "172.20.8.116";  
 	        String username = "root";  
-	        String password = "ufsoft"; */
-		    String hostname = "192.168.219.128";  
+	        String password = "ufsoft"; 
+/*		    String hostname = "192.168.219.128";  
 	        String username = "root";  
-	        String password = "zhukai"; 
+	        String password = "zhukai"; */
 	        String line;
 	        //指明连接主机的IP地址  
 	        Connection conn = new Connection(hostname);  
@@ -41,7 +43,7 @@ public class StressTesting {
 	            if(!isconn){  
 	                System.out.println("用户名称或者是密码不正确");  
 	            }else{  
-	                System.out.println("已经连接OK");  
+	                //System.out.println("已经连接OK");  
 	                ssh = conn.openSession();
 	                ssh.startShell();
 	    			in = ssh.getStdout();
@@ -69,6 +71,7 @@ public class StressTesting {
 	                        break;  
 	                    }  
 	                    ConsoleArea.append(line+"\n");
+	                    ConsoleArea.selectAll();
 	                   // System.out.println(line);  
    
 	                }  

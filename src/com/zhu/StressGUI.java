@@ -1,30 +1,34 @@
 package com.zhu;
 
-import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Color;
-import java.awt.Frame;
-import java.awt.Panel;
-import java.awt.TextArea;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
 import com.zhu.StressTesting;
 
 public class StressGUI {
-	private static String DEBUG="true";
+	private static String DEBUG="false";
 	
-	private  Button StartTest;
-	private  Button StopTest;
-	private  Button CloseTest;
-	private  TextArea consoleT;
-	private  Frame f;
+	private  JButton StartTest;
+	private  JButton StopTest;
+	private  JButton CloseTest;
+	private  JTextArea consoleT;
+	private  JFrame f;
 	
 	public StressGUI(){
-		//按钮
-		StartTest=new Button("strat");
-		StopTest=new Button("stop");
-		CloseTest=new Button("close");
-		//监听器
+		//设置按钮
+		StartTest=new JButton("strat");
+		StopTest=new JButton("stop");
+		CloseTest=new JButton("close");
+		
+		//设置监听器
 		StartTest.addActionListener(new ActionListener(){
 
 			@Override
@@ -68,34 +72,66 @@ public class StressGUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				if(DEBUG=="true")
 				System.out.println("stop testing");
 			}
 			
 		});
 		
 		// 创建Frame对象
-		f = new Frame();
-		f.setLayout(null);
+		f = new JFrame();
+		f.setLayout(new GridBagLayout());
+		GridBagConstraints layoutcontrol = new GridBagConstraints();
+
+		
 		// 创建panel容器
-		Panel p1 = new Panel();
-		Panel p2 = new Panel();
+		JPanel  loginpanel = new JPanel ();
+		JPanel  controlpanel = new JPanel ();
+		JScrollPane monitorpanel=new JScrollPane();
 		
-		p1.setBounds(20, 300, 150, 50);
-		p1.add(StartTest);// 默认垂直居中，间距为5
-		p1.add(StopTest);
-		p1.add(CloseTest);
+		// 设置登录panel
+		loginpanel.setBackground(Color.blue);
 		
-		//创建控制台显示块
-		consoleT=new TextArea();
-		//consoleT.setBackground(Color.black);
-		p2.setLayout(new BorderLayout());
-		p2.add(consoleT);
-		p2.setBounds(20, 350, 700, 240);		
-		f.add(p1);	
-		f.add(p2);	
-		// 设置Frame标题
-		f.setTitle("nginx图片压力测试");
+		// 设置控制panel
+		//controlpanel.setBounds(20, 300, 150, 50);
+		controlpanel.add(StartTest);// 默认垂直居中，间距为5
+		controlpanel.add(StopTest);
+		controlpanel.add(CloseTest);
+		controlpanel.setBackground(Color.black);
+		
+		//设置控制台panel
+		consoleT=new JTextArea();
+		monitorpanel.getViewport().add(consoleT);
+
+		
+		//添加三组界面模块
+		layoutcontrol.fill=GridBagConstraints.BOTH;
+		layoutcontrol.gridx=0;
+		layoutcontrol.gridy=0;
+		layoutcontrol.weightx =1;
+		layoutcontrol.weighty=1;
+		layoutcontrol.gridheight=1;
+		f.add(loginpanel,layoutcontrol);	
+		
+		layoutcontrol.fill=GridBagConstraints.BOTH;
+		layoutcontrol.gridx=0;
+		layoutcontrol.gridy=1;
+		layoutcontrol.weightx =1;
+		layoutcontrol.weighty=1;
+		layoutcontrol.gridheight=1;
+		f.add(controlpanel,layoutcontrol);	
+		
+		layoutcontrol.fill=GridBagConstraints.BOTH;
+		layoutcontrol.gridx=0;
+		layoutcontrol.gridy=2;
+		layoutcontrol.weightx =1;
+		layoutcontrol.weighty=1;
+		layoutcontrol.gridheight=0;
+		f.add(monitorpanel,layoutcontrol);
+		// 设置Frame
 		f.setSize(800, 600);
+		f.setLocationRelativeTo(null);
+		f.setTitle("nginx图片压力测试");
 		f.setResizable(false);
 		f.setVisible(true);
 	}
